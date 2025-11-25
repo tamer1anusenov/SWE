@@ -41,6 +41,8 @@ project-root/
 │
 ├── docker-compose.yml
 └── .env
+```
+
 ✅ Requirements
 Docker (20+)
 
@@ -102,23 +104,24 @@ This will apply all Alembic migrations to the scp_db database.
 Once everything is running:
 
 Mobile Web App (Flutter)
-👉 http://localhost:50000
+http://localhost:50000
 
 Backend API Docs (FastAPI / Swagger UI)
-👉 http://localhost:8000/docs
+http://localhost:8000/docs
 
 OpenAPI JSON
-👉 http://localhost:8000/openapi.json
+http://localhost:8000/openapi.json
 
-🔄 Common Docker Commands
+Common Docker Commands
 Rebuild images after code changes
-bash
-Copy code
+```
 docker compose up --build
+```
 Run in background (detached mode)
-bash
-Copy code
+```
 docker compose up -d
+```
+
 Stop all services
 bash
 Copy code
