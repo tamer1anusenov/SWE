@@ -4,6 +4,8 @@ services:
     container_name: backend
     restart: unless-stopped
     env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://tamerlan:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     ports:
       - "8000:8000"
     depends_on:
@@ -36,6 +38,19 @@ services:
       - API_URL=http://backend:8000
     ports:
       - "50000:50000"
+    depends_on:
+      - backend
+    networks:
+      - scpnet
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend_web
+    restart: unless-stopped
+    ports:
+      - "3000:80"
     depends_on:
       - backend
     networks:
