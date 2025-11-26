@@ -1,0 +1,50 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - scpnet
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - scpnet
+
+  mobile:
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile.web
+    container_name: mobile_web
+    restart: unless-stopped
+    environment:
+      - API_URL=http://backend:8000
+    ports:
+      - "50000:50000"
+    depends_on:
+      - backend
+    networks:
+      - scpnet
+
+networks:
+  scpnet:
+    driver: bridge
+
+volumes:
+  pgdata:
+
